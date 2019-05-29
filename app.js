@@ -1,12 +1,17 @@
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
+require('dotenv').config();
+const express = require('express');
+const app = express();
 const path = require('path');
 const router = express.Router();
+const api = require('./src/index');
+const port = process.env.PORT;
+
 
 
 
 app.use('/', router);
+
+app.use('/api/v1', api);
 
 app.use(express.static(__dirname + '/views'));
 
