@@ -5,3 +5,5 @@ manual_scaling:
 resources:
     memory_gb: 0.5
     disk_size_gb: 10
+env_variables:
+    EBAY_APP_KEY: 'YonatanG-Compare-PRD-95d7504c4-986d20a6'
