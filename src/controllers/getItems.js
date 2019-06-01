@@ -1,6 +1,6 @@
 const axios = require('axios');
 const encodeUrl = require('encodeurl')
-
+const ebayHelper = require('../helpers/ebayHelper')
 //   itemFilter: [
 //     {name: 'FreeShippingOnly', value: freeShippingOnly},
 //     {name: 'MinPrice', value: minPrice},
@@ -43,30 +43,7 @@ const getEbayItems = async (keywords, freeShippingOnly, pageNumber) => {
     })
 }
 
-const getConditionText = (condition) => {
-    switch (condition) {
-        case 1000:
-            return "new";
-        case 1500:
-            return "new other" ;
-        case 1750:
-            return "new with defects";
-        case 2000:
-            return "manufacturer refurbished";
-        case 2500:
-            return "Seller refurbished";
-        case 3000:
-            return "used";
-        case 4000:
-            return "very good";
-        case 5000:
-            return "good";
-        case 6000:
-            return "acceptable";
-        case 7000:
-            return "for parts or not working";
-    }
-}
+
 
 const arrangeItemFromEbay = (data) => {
     const itemList = data.findItemsAdvancedResponse[0].searchResult[0].item;
@@ -75,7 +52,7 @@ const arrangeItemFromEbay = (data) => {
         arrengedData.push({
             id: item.itemId[0],
             store: "ebay",
-            condition: item.condition && getConditionText(item.condition[0].conditionId[0]),
+            condition: item.condition && ebayHelper.getConditionText(item.condition[0].conditionId[0]),
             smallImageUrl: item.galleryURL[0],
             bigImageUrl: item.pictureURLSuperSize && item.pictureURLSuperSize[0],
             morePictures: [],
