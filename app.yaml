@@ -7,3 +7,7 @@ resources:
     disk_size_gb: 10
 env_variables:
     EBAY_APP_KEY: 'YonatanG-Compare-PRD-95d7504c4-986d20a6'
+    EBAY_AFFILIATE_CUSTOM_ID: 'yona-il2014'
+    EBAY_AFFILIATE_NETWORK_ID: 9
+    EBAY_AFFILIATE_GEO_TARGETING: 'US'
+    EBAY_AFFILIATE_TRACKING_ID: 5338215807

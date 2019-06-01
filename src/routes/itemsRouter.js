@@ -8,6 +8,6 @@ const asyncMiddleware = fn => (req, res, next) => {
         .catch(next);
 };
 
-router.get('/:keywords', asyncMiddleware(getItems));
+router.get('/:keywords/:freeShippingOnly', asyncMiddleware(getItems));
 
 module.exports = router;
