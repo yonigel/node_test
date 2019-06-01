@@ -71,7 +71,6 @@ const getConditionText = (condition) => {
 const arrangeItemFromEbay = (data) => {
     const itemList = data.findItemsAdvancedResponse[0].searchResult[0].item;
     let arrengedData = [];
-    console.log(itemList[0].pictureURLSuperSize)
     itemList.map((item) => {
         arrengedData.push({
             id: item.itemId[0],
