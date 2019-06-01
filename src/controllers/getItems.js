@@ -27,9 +27,12 @@ const getEbayItems = async (keywords, freeShippingOnly) => {
     affiliate.networkId=${process.env.EBAY_AFFILIATE_NETWORK_ID}&
     affiliate.trackingId=${process.env.EBAY_AFFILIATE_TRACKING_ID}&
     itemFilter.name=FreeShippingOnly&itemFilter.value=${freeShippingOnly}&
+    descriptionSearch=true&
     outputSelector(0)=SellerInfo&
     outputSelector(1)=GalleryInfo&
-    outputSelector(2)=StoreInfo
+    outputSelector(2)=StoreInfo&
+    outputSelector(3)=PictureURLLarge&
+    outputSelector(4)=PictureURLSuperSize
     `
     ;
     queryString = queryString.replace(/\s/g, '');
@@ -66,41 +69,26 @@ const getConditionText = (condition) => {
 
 const arrangeItemFromEbay = (data) => {
     const itemList = data.findItemsAdvancedResponse[0].searchResult[0].item;
-    console.log(`itemList length`, itemList[0])
     let arrengedData = [];
+    console.log(itemList[0].pictureURLSuperSize)
     itemList.map((item) => {
-
         arrengedData.push({
             id: item.itemId[0],
             store: "ebay",
             condition: getConditionText(item.condition[0].conditionId[0]),
-            // smallImageUrl: 
+            smallImageUrl: item.galleryURL[0],
+            bigImageUrl: item.pictureURLSuperSize && item.pictureURLSuperSize[0],
+            morePictures: [],
+            description: '',
+            title: item.title[0],
+            price: item.sellingStatus[0].currentPrice[0].__value__,
+            shippingPrice: item.shippingInfo[0].shippingServiceCost[0].__value__,
+            reviewAverage: 0,
+            reviews: [],
+            itemURL: item.viewItemURL[0]
         })
     });
-    // console.log(arrengedData)
     return arrengedData;
-    //
-    //         "smallImageUrl": "https://i.ebayimg.com/thumbs/images/g/hWwAAOSwXetcmKgu/s-l225.jpg",
-    //         "bigImageUrl": "https://i.ebayimg.com/thumbs/images/g/hWwAAOSwXetcmKgu/s-l225.jpg",
-    //         "morePictures": [
-    //             "https://i.ebayimg.com/thumbs/images/g/hWwAAOSwXetcmKgu/s-l225.jpg",
-    //             "https://i.ebayimg.com/images/g/eRgAAOSwy3JcSPTP/s-l1600.jpg",
-    //             "https://i.ebayimg.com/images/g/h~YAAOSw2~NcHJj1/s-l1600.jpg"
-    //         ],
-    //         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    //         "title": "Very goot watch",
-    //         "price": 10,
-    //         "shippingPrice": 12,
-    //         "reviewAverage": 4,
-    //         "reviews": [
-    //             {
-    //                 "id": 234,
-    //                 "rating": 4,
-    //                 "title": "first review",
-    //                 "description": "this is very good product."
-    //             }
-    //         ]
-    //     },
 }
 
 const getItems = async (req, res) => {
@@ -111,7 +99,8 @@ const getItems = async (req, res) => {
     const freeShippingOnly = req.params.freeShippingOnly;
     const ebayRaw = await getEbayItems(keywords, freeShippingOnly);
     const ebayItems = arrangeItemFromEbay(ebayRaw);
-    res.send(ebayRaw);
+    // res.send(ebayRaw);
+    res.send(ebayItems);
 }
 
 module.exports = getItems;
