@@ -12,7 +12,7 @@ const encodeUrl = require('encodeurl')
 //     {name: 'ListingType', value: 'FixedPrice'}
 //   ]
 
-const getEbayItems = async (keywords, freeShippingOnly) => {
+const getEbayItems = async (keywords, freeShippingOnly, pageNumber) => {
     const queryKeywords = encodeUrl(keywords);
     let queryString = `http://svcs.ebay.com/services/search/FindingService/v1?
     OPERATION-NAME=findItemsAdvanced&
@@ -28,6 +28,7 @@ const getEbayItems = async (keywords, freeShippingOnly) => {
     affiliate.trackingId=${process.env.EBAY_AFFILIATE_TRACKING_ID}&
     itemFilter.name=FreeShippingOnly&itemFilter.value=${freeShippingOnly}&
     descriptionSearch=true&
+    paginationInput.pageNumber=${pageNumber}&
     outputSelector(0)=SellerInfo&
     outputSelector(1)=GalleryInfo&
     outputSelector(2)=StoreInfo&
@@ -75,14 +76,14 @@ const arrangeItemFromEbay = (data) => {
         arrengedData.push({
             id: item.itemId[0],
             store: "ebay",
-            condition: getConditionText(item.condition[0].conditionId[0]),
+            condition: item.condition && getConditionText(item.condition[0].conditionId[0]),
             smallImageUrl: item.galleryURL[0],
             bigImageUrl: item.pictureURLSuperSize && item.pictureURLSuperSize[0],
             morePictures: [],
             description: '',
-            title: item.title[0],
-            price: item.sellingStatus[0].currentPrice[0].__value__,
-            shippingPrice: item.shippingInfo[0].shippingServiceCost[0].__value__,
+            title: item.title && item.title[0],
+            price: item.sellingStatus && item.sellingStatus[0].currentPrice[0].__value__,
+            shippingPrice: item.shippingInfo && item.shippingInfo[0].shippingServiceCost[0].__value__,
             reviewAverage: 0,
             reviews: [],
             itemURL: item.viewItemURL[0]
@@ -92,12 +93,13 @@ const arrangeItemFromEbay = (data) => {
 }
 
 const getItems = async (req, res) => {
-    if (!req.params.keywords || !req.params.freeShippingOnly) {
+    if (!req.params.keywords || !req.params.freeShippingOnly || !req.params.pageNumber) {
         throw new Error('some of params are missing')
     }
     const keywords = req.params.keywords;
     const freeShippingOnly = req.params.freeShippingOnly;
-    const ebayRaw = await getEbayItems(keywords, freeShippingOnly);
+    const pageNumber = req.params.pageNumber;
+    const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
     const ebayItems = arrangeItemFromEbay(ebayRaw);
     // res.send(ebayRaw);
     res.send(ebayItems);
