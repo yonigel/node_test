@@ -21,7 +21,6 @@ const getEbaySingleItem = async (id) => {
 }
 
 const arrangeEbayItem = (response) => {
-    console.log(response)
     return {
         id: response.Item.ItemID,
         store: "ebay",
