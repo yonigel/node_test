@@ -1,6 +1,7 @@
 const axios = require('axios');
-const encodeUrl = require('encodeurl')
-const ebayHelper = require('../helpers/ebayHelper')
+const encodeUrl = require('encodeurl');
+const ebayHelper = require('../helpers/ebayHelper');
+const mcache = require('memory-cache');
 //   itemFilter: [
 //     {name: 'FreeShippingOnly', value: freeShippingOnly},
 //     {name: 'MinPrice', value: minPrice},
@@ -72,13 +73,34 @@ const getItems = async (req, res) => {
     if (!req.params.keywords || !req.params.freeShippingOnly || !req.params.pageNumber) {
         throw new Error('some of params are missing')
     }
-    const keywords = req.params.keywords;
-    const freeShippingOnly = req.params.freeShippingOnly;
-    const pageNumber = req.params.pageNumber;
-    const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
-    const ebayItems = arrangeItemFromEbay(ebayRaw);
-    // res.send(ebayRaw);
-    res.send(ebayItems);
+
+    const key = `getItems_${req.params.keywords}_${req.params.freeShippingOnly}_${req.params.pageNumber}`
+    let cachedBody = mcache.get(key)
+
+    if (cachedBody) {
+        res.send(cachedBody)
+    } else {
+
+        const keywords = req.params.keywords;
+        const freeShippingOnly = req.params.freeShippingOnly;
+        const pageNumber = req.params.pageNumber;
+        const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
+        const ebayItems = arrangeItemFromEbay(ebayRaw);
+        // res.send(ebayRaw);
+        mcache.put(key, ebayItems);
+        res.send(ebayItems);
+
+
+        
+    }
+
+    // const keywords = req.params.keywords;
+    // const freeShippingOnly = req.params.freeShippingOnly;
+    // const pageNumber = req.params.pageNumber;
+    // const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
+    // const ebayItems = arrangeItemFromEbay(ebayRaw);
+    // // res.send(ebayRaw);
+    // res.send(ebayItems);
 }
 
 module.exports = getItems;
