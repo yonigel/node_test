@@ -73,34 +73,19 @@ const getItems = async (req, res) => {
     if (!req.params.keywords || !req.params.freeShippingOnly || !req.params.pageNumber) {
         throw new Error('some of params are missing')
     }
-
-    const key = `getItems_${req.params.keywords}_${req.params.freeShippingOnly}_${req.params.pageNumber}`
-    let cachedBody = mcache.get(key)
-
+    const cacheKey = `getItems_${req.params.keywords}_${req.params.freeShippingOnly}_${req.params.pageNumber}`
+    const cachedBody = mcache.get(cacheKey)
     if (cachedBody) {
         res.send(cachedBody)
     } else {
-
         const keywords = req.params.keywords;
         const freeShippingOnly = req.params.freeShippingOnly;
         const pageNumber = req.params.pageNumber;
         const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
         const ebayItems = arrangeItemFromEbay(ebayRaw);
-        // res.send(ebayRaw);
-        mcache.put(key, ebayItems);
+        mcache.put(cacheKey, ebayItems);
         res.send(ebayItems);
-
-
-        
     }
-
-    // const keywords = req.params.keywords;
-    // const freeShippingOnly = req.params.freeShippingOnly;
-    // const pageNumber = req.params.pageNumber;
-    // const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
-    // const ebayItems = arrangeItemFromEbay(ebayRaw);
-    // // res.send(ebayRaw);
-    // res.send(ebayItems);
 }
 
 module.exports = getItems;

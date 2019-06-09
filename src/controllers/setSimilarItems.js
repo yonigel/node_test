@@ -1,6 +1,6 @@
 const stringSimilarity = require('string-similarity')
 const lodash = require('lodash');
-const util = require('util')
+const mcache = require('memory-cache');
 
 const setSimilarItems = async (req, res) => {
     // TODO - add to each item:
@@ -10,9 +10,17 @@ const setSimilarItems = async (req, res) => {
     const allItems = filterSameItems(req.body);
 
     const itemsWithRelated = allItems.map((item) => {
-        const similarIdsByTitle = getSimilarItemsByTitle(item, allItems);
-        item.relatedItems = similarIdsByTitle;
-        return item;
+        const relatedItemsItemCache = `relatedItemsItemCache_${item.id}_${item.store}`;
+        const cachedBody = mcache.get(relatedItemsItemCache)
+        if(cachedBody) {
+            return cachedBody;
+        } else {
+            const similarIdsByTitle = getSimilarItemsByTitle(item, allItems);
+            item.relatedItems = similarIdsByTitle;
+            mcache.put(relatedItemsItemCache, item);
+            return item;
+        }
+        
     });
 
     // TODO - check if item is the "best"
