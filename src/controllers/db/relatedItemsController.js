@@ -1,7 +1,8 @@
 const RelatedItemsSchema = require('../../models/relatedItems');
 
-const getRelatedItems = (req, res) => {
-
+const getRelatedItems = async (req, res) => {
+    const existRelatedItems = await RelatedItemsSchema.find({itemId: req.params.itemId, itemStore: req.params.itemStore}).exec();
+    res.send(existRelatedItems[0].relatedItems)
 }
 
 const setRelatedItems = async (req, res) => {
@@ -9,14 +10,9 @@ const setRelatedItems = async (req, res) => {
         throw new Error('some of params are missing')
     }
 
-    // TODO - first check if item id and store not exist yet
-    // TODO - if exists - do nothing
-    let isExists;
-
     const existRelatedItems = await RelatedItemsSchema.find({itemId: req.body.itemId, itemStore: req.body.itemStore}).exec();
-    isExists = existRelatedItems.length > 0
 
-    if (isExists) {
+    if (existRelatedItems.length > 0) {
         res.send('related item already exists in db');
         return;
     }
