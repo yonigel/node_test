@@ -5,7 +5,14 @@ const path = require('path');
 const router = express.Router();
 const api = require('./src/index');
 const port = process.env.PORT;
-var bodyParser = require('body-parser')
+const mongoDB = process.env.DB_CONNECTION_STRING;
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));

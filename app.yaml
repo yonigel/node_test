@@ -11,3 +11,4 @@ env_variables:
     EBAY_AFFILIATE_NETWORK_ID: 9
     EBAY_AFFILIATE_GEO_TARGETING: 'US'
     EBAY_AFFILIATE_TRACKING_ID: 5338215807
+    DB_CONNECTION_STRING: 'mongodb://yonigel:Yonigel01!@ds235197.mlab.com:35197/argusearch'
