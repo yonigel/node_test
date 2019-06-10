@@ -33,11 +33,6 @@ const arrangeEbayItem = (response) => {
         description: response.Item.Description,
         morePictures: response.Item.PictureURL
     }
-    // shippingPrice: number,
-    // reviewAverage: number,
-    // reviews: Review[],
-    // : any[],
-    // : string
 }
 
 const getSingleItem = async (req, res) => {

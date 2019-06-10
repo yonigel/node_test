@@ -5,8 +5,13 @@ const getRelatedItems = async (req, res) => {
     res.send(existRelatedItems[0].relatedItems)
 }
 
+const getItemsURL = async (req, res) => {
+    const existRelatedItems = await RelatedItemsSchema.find({itemId: req.params.itemId, itemStore: req.params.itemStore}).exec();
+    res.send(existRelatedItems[0].itemLink)
+}
+
 const setRelatedItems = async (req, res) => {
-    if (!req.body.itemId || !req.body.itemStore || !req.body.relatedItems) {
+    if (!req.body.itemId || !req.body.itemStore || !req.body.relatedItems || !req.body.itemLink) {
         throw new Error('some of params are missing')
     }
 
@@ -17,12 +22,12 @@ const setRelatedItems = async (req, res) => {
         return;
     }
     
-    
     let relatedItem = new RelatedItemsSchema(
         {
             itemId: req.body.itemId,
             itemStore: req.body.itemStore,
-            relatedItems: req.body.relatedItems
+            relatedItems: req.body.relatedItems,
+            itemLink: req.body.itemLink
         }
     );
 
@@ -36,7 +41,8 @@ const setRelatedItems = async (req, res) => {
 
 const dbController = {
     getRelatedItems,
-    setRelatedItems
+    setRelatedItems,
+    getItemsURL
 }
 
 module.exports = dbController;
