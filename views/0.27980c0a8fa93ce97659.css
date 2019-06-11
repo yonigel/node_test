@@ -206,7 +206,7 @@ body, html {
 ._1KfIm {
     margin-top: 5px;
     text-align: center;
-    height: 250px;
+    height: 175px;
     overflow: hidden;
 }
 
@@ -215,6 +215,10 @@ body, html {
     font-weight: bold;
     color: #555555;
     margin-top: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
 }
 
 ._2Kk8T {
@@ -275,6 +279,18 @@ body, html {
 }
 ._3grxp {
     height: 100%;
+}
+
+._2GsIu {
+    text-align: center;
+}
+
+._2GsIu .z5ZTI {
+
+}
+
+._2GsIu ._392B7 {
+
 }
 
 .Qaja1 {
@@ -343,6 +359,7 @@ body, html {
     padding: 30px;
     width: 30%;
     text-align: center;
+    /* height: 370px; */
 }
 
 ._17IvF ._3p9_B ._1MyrV ._2ycB1 {
@@ -364,6 +381,10 @@ body, html {
     color: #5d5d5d;
     overflow-x: hidden;
     font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    width: 400px; 
+    white-space: nowrap;
 }
 
 ._17IvF ._3p9_B ._1lju- ._1HAew {
@@ -411,7 +432,8 @@ body, html {
 }
 
 ._17IvF ._3p9_B ._1lju- ._2QwcB {
-
+    overflow-y: auto;
+    max-height: 180px;
 }
 
 ._17IvF ._3p9_B ._1lju- ._2sycg ._2ivkO {
