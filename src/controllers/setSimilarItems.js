@@ -2,6 +2,9 @@ const stringSimilarity = require('string-similarity')
 const lodash = require('lodash');
 const mcache = require('memory-cache');
 
+const TITLE_SIMILARITY_RATE = 0.7;
+const PRICE_SIMILARITY_PRECENTAGE_DIFFERENCE = 0.3;
+
 const setSimilarItems = async (req, res) => {
     // TODO - add to each item:
     // TODO - is item have similar items - not required since it can be checked with the similar items array
@@ -15,7 +18,7 @@ const setSimilarItems = async (req, res) => {
         if(cachedBody) {
             return cachedBody;
         } else {
-            const similarIdsByTitle = getSimilarItemsByTitle(item, allItems);
+            const similarIdsByTitle = getSimilarItemsAlgorithm(item, allItems);
             item.relatedItems = similarIdsByTitle;
             mcache.put(relatedItemsItemCache, item);
             return item;
@@ -38,11 +41,19 @@ const filterSameItems = (allItems) => {
     return lodash.uniqBy(allItems, 'id')
 }
 
-const getSimilarItemsByTitle = (checkItem, allItems) => {
+const areItemsSimilar = (item1, item2) => {
+    const areTitlesSimilar = stringSimilarity.compareTwoStrings(item1.title, item2.title) > TITLE_SIMILARITY_RATE;
+
+    const arePricesSimilar = Math.abs(item1.price-item2.price) / Math.max(item1.price, item2.price) <= PRICE_SIMILARITY_PRECENTAGE_DIFFERENCE;
+
+    return areTitlesSimilar && arePricesSimilar;
+}
+
+
+const getSimilarItemsAlgorithm = (checkItem, allItems) => {
     let result = [];
     allItems.map((item) => {
-        const similarity = stringSimilarity.compareTwoStrings(item.title, checkItem.title);
-        if(similarity > 0.7 && item.id != checkItem.id) {
+        if (item.id != checkItem.id && areItemsSimilar(item, checkItem)) {
             result.push({id: item.id, store: item.store});
         }
     });
