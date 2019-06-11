@@ -54,7 +54,7 @@ const getSimilarItemsAlgorithm = (checkItem, allItems) => {
     let result = [];
     allItems.map((item) => {
         if (item.id != checkItem.id && areItemsSimilar(item, checkItem)) {
-            result.push({id: item.id, store: item.store});
+            result.push({id: item.id, store: item.store, price: item.price});
         }
     });
     return result;

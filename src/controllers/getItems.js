@@ -82,7 +82,7 @@ const getItems = async (req, res) => {
         const freeShippingOnly = req.params.freeShippingOnly;
         const pageNumber = req.params.pageNumber;
         const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
-        console.log(ebayRaw)
+        // console.log(ebayRaw)
         const ebayItems = arrangeItemFromEbay(ebayRaw);
         mcache.put(cacheKey, ebayItems);
         res.send(ebayItems);
