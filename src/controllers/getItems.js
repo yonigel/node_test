@@ -48,6 +48,7 @@ const getEbayItems = async (keywords, freeShippingOnly, pageNumber) => {
 
 const arrangeItemFromEbay = (data) => {
     const itemList = data.findItemsAdvancedResponse[0].searchResult[0].item;
+    console.log(itemList[0])
     let arrengedData = [];
     itemList.map((item) => {
         arrengedData.push({
