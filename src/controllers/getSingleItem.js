@@ -1,6 +1,7 @@
 const axios = require('axios');
 const encodeUrl = require('encodeurl')
 const ebayHelper = require('../helpers/ebayHelper')
+const itemDetailsController = require('../controllers/db/itemDetailsController')
 
 const getEbaySingleItem = async (id) => {
     let queryString = `
@@ -31,7 +32,7 @@ const arrangeEbayItem = (response) => {
         price: response.Item.ConvertedCurrentPrice.Value,
         shippingPrice: 0,
         description: response.Item.Description,
-        morePictures: response.Item.PictureURL
+        morePictures: response.Item.PictureURL,
     }
 }
 
@@ -47,7 +48,8 @@ const getSingleItem = async (req, res) => {
             result = arrangeEbayItem(await getEbaySingleItem(itemId))
         break;
     }
-
+    const itemDetails = await itemDetailsController.getItemDetails(itemId, store);
+    result.itemURL = itemDetails.itemURL;
     res.send(result);
 }
 

@@ -26,8 +26,7 @@ const setRelatedItems = async (req, res) => {
         {
             itemId: req.body.itemId,
             itemStore: req.body.itemStore,
-            relatedItems: req.body.relatedItems,
-            itemLink: req.body.itemLink
+            relatedItems: req.body.relatedItems
         }
     );
 

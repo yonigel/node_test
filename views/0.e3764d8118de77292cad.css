@@ -210,6 +210,7 @@ body, html {
     text-align: center;
     height: 175px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 ._2lmis {
@@ -364,6 +365,10 @@ body, html {
     /* height: 370px; */
 }
 
+._17IvF ._13wZ5 {
+    text-align: center;
+}
+
 ._17IvF ._3p9_B ._1MyrV ._2ycB1 {
     overflow: hidden;
     text-align: center;
@@ -379,14 +384,14 @@ body, html {
 }
 
 ._17IvF ._3p9_B ._1lju- ._1uUVU {
-    font-size: 30px;
+    font-size: 20px;
     color: #5d5d5d;
     overflow-x: hidden;
     font-weight: 400;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis;
     overflow: hidden; 
     width: 400px; 
-    white-space: nowrap;
+    white-space: nowrap; */
 }
 
 ._17IvF ._3p9_B ._1lju- ._1HAew {
@@ -452,6 +457,7 @@ body, html {
     transition: all 0.3s;
     border: 1px solid #ff3c20;
     width: 150px;
+    cursor: pointer;
 }
 
 ._17IvF ._3p9_B ._1lju- ._2QwcB ._2guNu {

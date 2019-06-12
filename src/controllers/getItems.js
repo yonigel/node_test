@@ -2,6 +2,9 @@ const axios = require('axios');
 const encodeUrl = require('encodeurl');
 const ebayHelper = require('../helpers/ebayHelper');
 const mcache = require('memory-cache');
+
+const itemDetailsController = require('../controllers/db/itemDetailsController')
+
 //   itemFilter: [
 //     {name: 'FreeShippingOnly', value: freeShippingOnly},
 //     {name: 'MinPrice', value: minPrice},
@@ -48,7 +51,6 @@ const getEbayItems = async (keywords, freeShippingOnly, pageNumber) => {
 
 const arrangeItemFromEbay = (data) => {
     const itemList = data.findItemsAdvancedResponse[0].searchResult[0].item;
-    console.log(itemList[0])
     let arrengedData = [];
     itemList.map((item) => {
         arrengedData.push({
@@ -83,8 +85,10 @@ const getItems = async (req, res) => {
         const freeShippingOnly = req.params.freeShippingOnly;
         const pageNumber = req.params.pageNumber;
         const ebayRaw = await getEbayItems(keywords, freeShippingOnly, pageNumber);
-        // console.log(ebayRaw)
         const ebayItems = arrangeItemFromEbay(ebayRaw);
+
+        itemDetailsController.setItemsDetails(ebayItems);
+
         mcache.put(cacheKey, ebayItems);
         res.send(ebayItems);
     }
