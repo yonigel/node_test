@@ -2,7 +2,8 @@ const RelatedItemsSchema = require('../../models/relatedItems');
 
 const getRelatedItems = async (req, res) => {
     const existRelatedItems = await RelatedItemsSchema.find({itemId: req.params.itemId, itemStore: req.params.itemStore}).exec();
-    res.send(existRelatedItems[0].relatedItems)
+    const result = getRelatedItems && existRelatedItems[0] && existRelatedItems[0].relatedItems;
+    res.send(result)
 }
 
 const getItemsURL = async (req, res) => {
