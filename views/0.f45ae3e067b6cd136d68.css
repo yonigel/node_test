@@ -205,6 +205,12 @@ body, html {
     font-size: 12px;
 }
 
+._13KuQ {
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
 ._1KfIm {
     margin-top: 5px;
     text-align: center;
@@ -323,6 +329,25 @@ body, html {
     padding: 15px;
     text-align: center;
 }
+._1e8ku {
+    width: 320px;
+}
+
+._1e8ku ._2nZdW {
+    background-color: white;
+    /* height: 400px; */
+    width: 100%;
+    height: 400px;
+    display: block;
+    position: relative;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+._1e8ku ._3iTlS {
+    height: 80px;
+    margin-top: 5px;
+}
 
 ._17IvF {
     padding:20px;
@@ -360,7 +385,8 @@ body, html {
     display: inline-block;
     background-color: #f7f7f7;
     padding: 30px;
-    width: 30%;
+    /* width: 30%; */
+    width: 350px;
     text-align: center;
     /* height: 370px; */
 }
@@ -377,7 +403,7 @@ body, html {
 
 ._17IvF ._3p9_B ._1lju- {
     display: inline-block;
-    width: 60%;
+    /* width: 60%; */
     padding: 10px 30px;
     position: absolute;
     height: 100%;
