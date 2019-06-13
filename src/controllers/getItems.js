@@ -57,7 +57,7 @@ const arrangeItemFromEbay = (data) => {
             id: item.itemId[0],
             store: "ebay",
             condition: item.condition && ebayHelper.getConditionText(item.condition[0].conditionId[0]),
-            smallImageUrl: item.galleryURL[0],
+            smallImageUrl: item.galleryURL && item.galleryURL[0],
             bigImageUrl: item.pictureURLSuperSize && item.pictureURLSuperSize[0],
             morePictures: [],
             description: '',
@@ -66,7 +66,7 @@ const arrangeItemFromEbay = (data) => {
             shippingPrice: item.shippingInfo && item.shippingInfo[0].shippingServiceCost[0].__value__,
             reviewAverage: 0,
             reviews: [],
-            itemURL: item.viewItemURL[0]
+            itemURL: item.viewItemURL && item.viewItemURL[0]
         })
     });
     return arrengedData;
