@@ -14,7 +14,6 @@ const saveSingleItemDetails = async (item) => {
     );
     await itemDetails.save(function (err) {
         if (err) {
-            console.log(err)
             return next(err);
         }
     })
@@ -27,7 +26,6 @@ const setItemsDetails = async (itemList) => {
 
 const getItemDetails = async (id, store) => {
     const itemDetails = await ItemDetailsSchema.find({itemId: id, itemStore: store}).exec();
-    console.log(itemDetails)
     return itemDetails[0];
 }
 
