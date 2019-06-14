@@ -330,7 +330,8 @@ body, html {
     text-align: center;
 }
 ._1e8ku {
-    width: 320px;
+    width: 290px;
+    margin: auto;
 }
 
 ._1e8ku ._2nZdW {
@@ -341,7 +342,27 @@ body, html {
     display: block;
     position: relative;
     margin-top: 20px;
-    overflow: hidden;
+    /* overflow: hidden; */
+}
+
+._1e8ku ._2nZdW ._1fpDc {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    /* margin-right: 24px; */
+    z-index: 3;
+    cursor: pointer;
+}
+
+._1e8ku ._2nZdW ._1jNQG {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    /* margin-right: 24px; */
+    z-index: 3;
+    cursor: pointer;
 }
 
 ._1e8ku ._3iTlS {
@@ -384,7 +405,7 @@ body, html {
 ._17IvF ._3p9_B ._1MyrV {
     display: inline-block;
     background-color: #f7f7f7;
-    padding: 30px;
+    /* padding: 30px; */
     /* width: 30%; */
     width: 350px;
     text-align: center;
