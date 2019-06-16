@@ -32,16 +32,6 @@ const setSimilarItems = async (req, res) => {
 
 
     allItems.map((item) => {
-        // const relatedItemsItemCache = `relatedItemsItemCache_${item.id}_${item.store}`;
-        // const cachedBody = mcache.get(relatedItemsItemCache)
-        // if(cachedBody) {
-        //     itemsWithRelated.push(cachedBody);
-        // } else {
-        //     const similarIdsByTitle = getSimilarItemsAlgorithm(item, allItems);
-        //     item.relatedItems = similarIdsByTitle;
-        //     mcache.put(relatedItemsItemCache, item);
-        //     itemsWithRelated.push(item);
-        // }
         if (!groupedItems.some((groupedItem) => groupedItem.id === item.id && groupedItem.store === item.store)) { // not check if already grouped
             
             const similarIdsByTitle = getSimilarItemsAlgorithm(item, allItems, groupedItems);
@@ -49,9 +39,7 @@ const setSimilarItems = async (req, res) => {
             if (similarIdsByTitle.length > 0) {
                 groupedItems = groupedItems.concat(similarIdsByTitle)
             }
-            // mcache.put(relatedItemsItemCache, item);
             itemsWithRelated.push(item);
-                
         } else {
             skippedItems++;
         }
