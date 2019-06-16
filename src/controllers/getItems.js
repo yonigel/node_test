@@ -5,17 +5,6 @@ const mcache = require('memory-cache');
 
 const itemDetailsController = require('../controllers/db/itemDetailsController')
 
-//   itemFilter: [
-//     {name: 'FreeShippingOnly', value: freeShippingOnly},
-//     {name: 'MinPrice', value: minPrice},
-//     {name: 'MaxPrice', value: maxPrice},
-//     {name: 'AvailableTo', value: countryCode},
-//     {name: 'TopRatedSellerOnly', value: topRatedSellerOnly},
-//     {name: 'FeaturedOnly', value: false},
-//     {name: 'HideDuplicateItems', value: true},
-//     {name: 'ListingType', value: 'FixedPrice'}
-//   ]
-
 const getEbayItems = async (keywords, freeShippingOnly, pageNumber) => {
     const queryKeywords = encodeUrl(keywords);
     let queryString = `http://svcs.ebay.com/services/search/FindingService/v1?
@@ -41,10 +30,11 @@ const getEbayItems = async (keywords, freeShippingOnly, pageNumber) => {
     `
     ;
     queryString = queryString.replace(/\s/g, '');
-    return await axios.get(queryString)
-    .then(response => {
-        return response.data
-    })
+    const start = new Date();
+    const response = await axios.get(queryString);
+    const endDate = new Date()
+    console.log(`got ebay request after:`, (endDate.getTime() - start.getTime())/1000)
+    return response.data
 }
 
 

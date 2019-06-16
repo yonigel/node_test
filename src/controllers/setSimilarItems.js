@@ -17,19 +17,6 @@ const setSimilarItems = async (req, res) => {
     let skippedItems = 0
 
     let itemsWithRelated = []
-    // allItems.map((item) => {
-      
-    //     const similarIdsByTitle = getSimilarItemsAlgorithm(item, allItems, groupedItems);
-    //     item.relatedItems = similarIdsByTitle;
-    
-    //     if (similarIdsByTitle.length > 0) {
-    //         groupedItems = groupedItems.concat(similarIdsByTitle)
-    //     }
-            
-    //     return itemsWithRelated.push(item);
-
-    // })
-
 
     allItems.map((item) => {
         if (!groupedItems.some((groupedItem) => groupedItem.id === item.id && groupedItem.store === item.store)) { // not check if already grouped
@@ -44,10 +31,11 @@ const setSimilarItems = async (req, res) => {
             skippedItems++;
         }
     });
+    
     const endDate = new Date()
     console.log(`grouping - total time:`, (endDate.getTime() - start.getTime())/1000)
-    // console.log(`total grouped items`,groupedItems)
     console.log(`total skipped items`, skippedItems)
+
     // TODO - check if item is the "best"
     const isItemBestStart = new Date()
     const itemsResult = itemsWithRelated.map((newItem) => {
@@ -77,11 +65,6 @@ const areItemsSimilar = (item1, item2) => {
 const getSimilarItemsAlgorithm = (checkItem, allItems, groupedItems) => {
     let result = [];
     allItems.map((item) => {
-    
-        // if (groupedItems.some((grouedItem) => grouedItem.id == item.id && grouedItem.store == item.store)) {
-        //     return;
-        // }
-        // else
         if (item.id != checkItem.id && areItemsSimilar(item, checkItem)) {
             result.push({id: item.id, store: item.store, price: item.price});
         }
