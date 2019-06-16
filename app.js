@@ -40,4 +40,8 @@ router.get('/item/:store/:id', (req, res) =>  {
     res.sendFile(path.join(__dirname+'/views/index.html'));
 })
 
+router.get('/admin', (req, res) =>  {
+    res.sendFile(path.join(__dirname+'/views/index.html'));
+})
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
